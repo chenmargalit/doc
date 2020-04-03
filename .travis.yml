@@ -1,0 +1,14 @@
+# as we're using docker, we need sudo permissions
+sudo: reuqired
+services:
+  # install a copy of docker
+  - docker
+
+before_install:
+  # before u stqrt doing anything (tests/deployment) run the docker image. the extra . is the locaiton (e.g in this directory)
+  # the chenmargalit/doc will allow us to treat the docker container with this name rather then some weird generated id
+  - docker build -t chenmargalit/doc -f Dockerfile.dev .
+
+# what command is needed to do the work?
+script:
+  - docker run -e CI=true chenmargalit/doc npm run test
